@@ -1,0 +1,8 @@
+/
+  Cache-Control: no-store, no-cache, must-revalidate
+/index.html
+  Cache-Control: no-store, no-cache, must-revalidate
+/jp-assist.html
+  Cache-Control: no-store, no-cache, must-revalidate
+/assets/*
+  Cache-Control: public, max-age=3600

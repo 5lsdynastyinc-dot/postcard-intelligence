@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f5f1e8">
+<title>JP Assist · POSTCARD Intelligence</title>
+<style>
+:root{--paper:#f5f1e8;--surface:#fffdf9;--ink:#17232d;--muted:#68747d;--line:#d9d2c4;--accent:#9b6d32;--green:#29443d}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.shell{width:min(calc(100% - 32px),820px);margin:auto}
+header{border-bottom:1px solid var(--line);padding:22px 0}
+header a{text-decoration:none;font-weight:800;letter-spacing:.08em}
+main{padding:42px 0 60px}
+.kicker{font-size:10px;letter-spacing:.16em;font-weight:800;text-transform:uppercase;color:var(--accent)}
+h1,h2{font-family:Georgia,"Times New Roman",serif;margin:0;font-weight:600}
+h1{font-size:clamp(42px,8vw,70px);line-height:1;margin:12px 0 17px}
+.lead{font-family:Georgia,serif;font-size:21px;line-height:1.5;color:#3a4851}
+.notice{background:#fff8e8;border:1px solid #ead9aa;border-radius:14px;padding:16px;margin:24px 0;color:#6f5929;line-height:1.55}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:17px;padding:22px;margin:16px 0}
+.card h2{font-size:27px;margin-bottom:13px}
+label{display:block;font-size:13px;font-weight:800;margin:14px 0 6px}
+select,input{width:100%;border:1px solid var(--line);border-radius:11px;background:white;padding:12px;font:inherit;color:var(--ink)}
+button{margin-top:18px;background:var(--green);color:white;border:0;border-radius:999px;padding:13px 17px;font-weight:800}
+.result{display:none;background:#17232d;color:white;border-radius:17px;padding:22px;margin-top:18px}
+.result p{color:#d9e0e2;line-height:1.6}
+.sources a{color:inherit}
+.back{display:inline-block;margin-top:22px;color:var(--ink);text-underline-offset:3px}
+</style>
+</head>
+<body>
+<header><div class="shell"><a href="index.html">← POSTCARD Intelligence</a></div></header>
+<main class="shell">
+  <div class="kicker">JP Assist · Global mobility intelligence</div>
+  <h1>Start with your actual context.</h1>
+  <p class="lead">The QTS headline cannot determine an individual teacher’s pathway by itself. JP Assist first separates professional recognition, employment and immigration questions.</p>
+
+  <div class="notice"><strong>Current status:</strong> this is a pilot decision-support page. It organizes your facts locally in your browser. It does not send an application, make a legal determination, or replace current official guidance.</div>
+
+  <div class="card">
+    <h2>Your pathway facts</h2>
+    <label for="trained">Where did you complete teacher training?</label>
+    <select id="trained">
+      <option value="">Choose one</option>
+      <option>Nigeria</option><option>Ghana</option><option>India</option><option>Another country</option>
+    </select>
+
+    <label for="location">Where are you now?</label>
+    <select id="location">
+      <option value="">Choose one</option>
+      <option>Outside the UK</option><option>In England</option><option>Elsewhere in the UK</option>
+    </select>
+
+    <label for="qts">Do you already hold QTS in England?</label>
+    <select id="qts">
+      <option value="">Choose one</option><option>Yes</option><option>No</option><option>Not sure</option>
+    </select>
+
+    <label for="work">What is the main question you need answered?</label>
+    <select id="work">
+      <option value="">Choose one</option>
+      <option>Professional recognition / QTS</option>
+      <option>Finding teaching work</option>
+      <option>Visa or right to work</option>
+      <option>Teacher training route</option>
+      <option>An application already submitted</option>
+    </select>
+
+    <button id="build">Organize my next checks</button>
+    <div class="result" id="result">
+      <div class="kicker" style="color:#d7b97d">Your next-check summary</div>
+      <p id="summary"></p>
+      <p><strong>Next principle:</strong> verify the live professional route with the Department for Education and treat immigration/right-to-work questions separately with the relevant current UK authority.</p>
+    </div>
+  </div>
+
+  <div class="card sources">
+    <h2>Primary authority for this story</h2>
+    <p><a href="https://www.gov.uk/government/publications/overseas-trained-teachers-apply-for-qualified-teacher-status-in-england/overseas-trained-teachers-apply-for-qualified-teacher-status-in-england" target="_blank" rel="noopener">UK Department for Education — Overseas-trained teachers: apply for qualified teacher status in England ↗</a></p>
+  </div>
+
+  <a class="back" href="index.html">← Back to the POSTCARD story</a>
+</main>
+<script>
+document.getElementById('build').addEventListener('click', function(){
+  const trained=document.getElementById('trained').value||'training country not yet selected';
+  const location=document.getElementById('location').value||'current location not yet selected';
+  const qts=document.getElementById('qts').value||'QTS status not yet selected';
+  const work=document.getElementById('work').value||'main question not yet selected';
+  const result=document.getElementById('result');
+  document.getElementById('summary').textContent =
+    `Training: ${trained}. Current location: ${location}. Existing QTS: ${qts}. Main question: ${work}. These facts should be checked before choosing a route or spending money.`;
+  result.style.display='block';
+  result.scrollIntoView({behavior:'smooth',block:'nearest'});
+});
+</script>
+</body>
+</html>
