@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f5f1e8">
+<meta name="description" content="POSTCARD Intelligence — verified facts, context and what matters next.">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>POSTCARD Intelligence — Live Test</title>
+<style>
+:root{
+  --paper:#f5f1e8;--surface:#fffdf9;--ink:#17232d;--muted:#68747d;
+  --line:#d9d2c4;--accent:#9b6d32;--green:#29443d;--max:1180px
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:92px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}
+a{color:inherit}
+.shell{width:min(calc(100% - 32px),var(--max));margin:auto}
+header{position:sticky;top:0;z-index:20;background:rgba(245,241,232,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top{height:74px;display:grid;grid-template-columns:44px 1fr 44px;align-items:center}
+.brand{text-align:center;text-decoration:none;line-height:1;display:flex;flex-direction:column;align-items:center}
+.brand strong{font-family:Georgia,"Times New Roman",serif;font-size:26px;letter-spacing:.11em}
+.brand small{font-size:8px;letter-spacing:.34em;margin-top:6px}
+.icon{border:0;background:none;font-size:23px;color:var(--ink)}
+.desktop-nav{display:none;gap:25px;justify-content:center;padding-bottom:11px}
+.desktop-nav a{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;white-space:nowrap}
+.icon{cursor:pointer;display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:999px}
+.icon:focus-visible,.desktop-nav a:focus-visible,.mobile-menu a:focus-visible,.search-results a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+.mobile-menu[hidden],.search-panel[hidden]{display:none!important}
+@media(min-width:900px){
+  .desktop-nav{display:flex}
+  .menu-button{visibility:hidden;pointer-events:none}
+}
+
+.mobile-menu{
+  border-top:1px solid var(--line);
+  background:var(--paper);
+  box-shadow:0 14px 30px rgba(23,35,45,.10);
+  width:100%;
+}
+.mobile-menu-inner{
+  display:flex;
+  flex-direction:column;
+  width:min(calc(100% - 32px),var(--max));
+  margin:0 auto;
+  padding:8px 0 14px;
+  gap:0;
+}
+.mobile-menu-inner a{
+  display:block;
+  width:100%;
+  min-width:0;
+  padding:15px 2px;
+  border-bottom:1px solid rgba(217,210,196,.72);
+  font-size:15px;
+  line-height:1.2;
+  font-weight:700;
+  letter-spacing:.01em;
+  text-transform:none;
+  text-decoration:none;
+  white-space:normal;
+  overflow-wrap:normal;
+  word-break:normal;
+}
+.mobile-menu-inner a:last-child{border-bottom:0}
+
+.search-panel{border-top:1px solid var(--line);background:var(--paper);box-shadow:0 12px 24px rgba(23,35,45,.08)}
+.search-inner{padding-top:14px;padding-bottom:18px}
+.search-row{display:grid;grid-template-columns:1fr 44px;gap:8px}
+.search-row input{width:100%;border:1px solid var(--line);border-radius:999px;padding:12px 16px;background:var(--surface);font:inherit;color:var(--ink)}
+.search-close{border:1px solid var(--line);background:var(--surface);border-radius:999px;font-size:24px;color:var(--ink)}
+.search-results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.search-results a{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 13px;text-decoration:none;font-size:13px;font-weight:700;line-height:1.35}
+.search-results a[hidden]{display:none}
+.search-empty{grid-column:1/-1;color:var(--muted);font-size:13px;padding:8px 2px}
+
+.kicker,.eyebrow{font-size:10px;letter-spacing:.16em;font-weight:800;text-transform:uppercase;color:var(--accent)}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;margin:0;font-weight:600}
+.hero{padding:30px 0 34px;scroll-margin-top:92px}
+.hero-image{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--line);background:#d9d2c4;aspect-ratio:16/9}
+.hero-image img{width:100%;height:100%;display:block;object-fit:cover;object-position:center center}
+.hero-image:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(13,29,25,.18),transparent 44%)}
+.hero-copy{width:min(900px,100%);padding-top:25px}
+h1{font-size:clamp(42px,7.2vw,78px);line-height:.99;letter-spacing:-.035em;margin:13px 0 18px}
+.standfirst{font-family:Georgia,serif;font-size:clamp(19px,2.3vw,27px);line-height:1.43;color:#3a4851;margin:0 0 18px}
+.meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:13px}
+.badge{border:1px solid #668477;background:#edf4ef;color:#285142;border-radius:999px;padding:7px 10px;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.live-test{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 10px;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.lead-note{margin-top:25px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:17px 0;display:grid;grid-template-columns:130px 1fr;gap:18px;font-family:Georgia,serif;font-size:18px;line-height:1.45}
+.lead-note-label{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--accent);padding-top:4px}
+
+.section{padding:40px 0;border-top:1px solid var(--line);scroll-margin-top:92px}
+.section-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:20px}
+.section-head h2{font-size:34px}
+.briefs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px}
+.card .num{font-family:Georgia,serif;font-size:42px;color:#cfc7b8}
+.card h3{font-size:24px;margin:12px 0}
+.card p{color:var(--muted);line-height:1.6;margin-bottom:0}
+
+.article{width:min(calc(100% - 32px),820px);margin:auto;padding:46px 0;scroll-margin-top:92px}
+.article-section{margin:0 0 34px}
+.article-section h2{font-size:30px;margin-bottom:12px}
+.article-section p{font-family:Georgia,serif;font-size:19px;line-height:1.72;color:#2e3a42}
+.fact{background:#17232d;color:#fff;padding:27px;border-radius:18px;margin:30px 0}
+.fact h2{font-size:29px;margin:7px 0 10px}
+.fact p{color:#d8e0e4;line-height:1.58}
+.cta{display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:12px 16px;border-radius:999px;background:#f4e8cf;color:#17232d;text-decoration:none;font-weight:800;font-size:13px}
+.cta:hover{transform:translateY(-1px)}
+.sources{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px}
+.sources li{margin:12px 0;line-height:1.45}
+.sources a{text-decoration-thickness:1px;text-underline-offset:3px}
+.source-meta{font-size:12px;color:var(--muted);margin-top:4px}
+
+.context-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.context-card{border:1px solid var(--line);border-radius:15px;padding:18px;background:rgba(255,253,249,.68)}
+.context-card strong{display:block;font-family:Georgia,serif;font-size:20px;margin-bottom:5px}
+.context-card span{font-size:13px;color:var(--muted);line-height:1.5}
+
+.newsletter{padding:34px 0 46px}
+.newsletter-card{background:var(--green);color:white;border-radius:22px;padding:30px 25px;box-shadow:0 10px 30px rgba(23,35,45,.08)}
+.newsletter-card h2{font-size:clamp(28px,5vw,38px);line-height:1.08;max-width:760px;margin:8px 0 10px}
+.newsletter-card p{color:#dfe8e4;max-width:680px;line-height:1.6;margin:0}
+
+footer{padding:28px 0;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+.footer-grid{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.footer-links{display:flex;gap:16px;flex-wrap:wrap}
+.footer-links a{text-decoration:none}
+
+@media(max-width:899px){
+  .desktop-nav{display:none!important}
+  .top{height:82px}
+  header{width:100%;overflow:visible}
+  .brand strong{font-size:25px}
+  .search-results{grid-template-columns:1fr}
+  .hero{padding-top:22px}
+  .hero-image{border-radius:18px;aspect-ratio:4/3}
+  h1{font-size:43px}
+  .lead-note{grid-template-columns:1fr;gap:6px;font-size:17px}
+  .briefs,.context-grid{grid-template-columns:1fr}
+  .newsletter-card{border-radius:18px;padding:24px 20px}
+}
+</style>
+</head>
+<body>
+<!-- build: POSTCARD Intelligence v0.1.8 final front-end -->
+<header>
+  <div class="top shell">
+    <button class="icon menu-button" id="menuButton" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileMenu">☰</button>
+    <a class="brand" href="#top" aria-label="POSTCARD Intelligence home"><strong>POSTCARD</strong><small>INTELLIGENCE</small></a>
+    <button class="icon search-button" id="searchButton" aria-label="Open search" aria-expanded="false" aria-controls="searchPanel">⌕</button>
+  </div>
+
+  <nav class="desktop-nav shell" aria-label="Primary navigation">
+    <a href="#top">Home</a>
+    <a href="#briefings">Briefings</a>
+    <a href="#story">Stories</a>
+    <a href="#topics">Topics</a>
+    <a href="#places">Places</a>
+    <a href="#my-postcard">My POSTCARD</a>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu" hidden>
+    <nav class="mobile-menu-inner shell" aria-label="Mobile navigation">
+      <a href="#top">Home</a>
+      <a href="#briefings">Briefings</a>
+      <a href="#story">Stories</a>
+      <a href="#topics">Topics</a>
+      <a href="#places">Places</a>
+      <a href="#my-postcard">My POSTCARD</a>
+      <a href="jp-assist.html">JP Assist</a>
+    </nav>
+  </div>
+
+  <div class="search-panel" id="searchPanel" hidden>
+    <div class="search-inner shell">
+      <div class="search-row">
+        <input id="siteSearch" type="search" placeholder="Search this POSTCARD…" aria-label="Search this POSTCARD">
+        <button id="searchClose" class="search-close" aria-label="Close search">×</button>
+      </div>
+      <div id="searchResults" class="search-results" aria-live="polite">
+        <a href="#story" data-search="qts england teachers nigeria ghana professional recognition">QTS route change</a>
+        <a href="#topics" data-search="education migration world topics">Education & migration</a>
+        <a href="#places" data-search="england nigeria ghana places">Places in this story</a>
+        <a href="jp-assist.html" data-search="jp assist mobility immigration pathway qts">Explore with JP Assist</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="top" tabindex="-1">
+<section class="hero">
+  <div class="shell">
+    <div class="hero-image">
+      <img src="qts-hero.jpg" alt="Editorial image for the England QTS route story">
+    </div>
+    <div class="hero-copy">
+      <div class="kicker">EDUCATION · MIGRATION · ENGLAND</div>
+      <h1>England changed the QTS route for Nigeria- and Ghana-trained teachers</h1>
+      <p class="standfirst">The direct recognition service changed on 9 September 2026. That is not the same as a UK-wide teaching ban.</p>
+      <div class="meta">
+        <span class="badge">Confirmed</span>
+        <span>24 September 2026</span>
+        <span>5 min read</span>
+        <span class="live-test">Live deployment test</span>
+      </div>
+      <div class="lead-note">
+        <span class="lead-note-label">What changed</span>
+        <span>England changed one direct QTS recognition route. It did not create a UK-wide teaching ban.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="briefings">
+  <div class="shell">
+    <div class="section-head"><div><div class="eyebrow">Briefings</div><h2>Three things to know</h2></div></div>
+    <div class="briefs">
+      <article class="card"><div class="num">01</div><h3>Direct route changed</h3><p>From 9 September 2026, teachers trained in Nigeria, Ghana or India can no longer use England’s Apply for QTS direct-recognition service.</p></article>
+      <article class="card"><div class="num">02</div><h3>Not a UK-wide ban</h3><p>The verified evidence does not support saying those teachers have been banned from teaching across the United Kingdom or that existing QTS has been cancelled.</p></article>
+      <article class="card"><div class="num">03</div><h3>Context decides the next route</h3><p>Training, experience, location, employment and right-to-work status matter before an individual pathway can be assessed.</p></article>
+    </div>
+  </div>
+</section>
+
+<article class="article" id="story">
+  <div class="eyebrow">Full intelligence</div>
+
+  <section class="article-section">
+    <h2>What changed</h2>
+    <p>Teachers who trained in Nigeria, Ghana or India are no longer eligible to use England’s Apply for QTS direct-recognition service from 9 September 2026.</p>
+    <p>The confirmed change is about eligibility for that service in England. It should not be compressed into a claim that Nigerian or Ghanaian teachers have been banned from teaching across the UK.</p>
+  </section>
+
+  <section class="article-section">
+    <h2>What did not happen</h2>
+    <p>The change does not itself cancel existing QTS, does not make QTS a visa, and does not establish that every alternative professional route is unavailable.</p>
+    <p>Employment, professional recognition and immigration permission are separate questions and should be checked separately.</p>
+  </section>
+
+  <section class="article-section">
+    <h2>Why the route changed</h2>
+    <p>The Department for Education says countries using the service must support reliable checks of professional standing and work-history references. It reports that more than 70% of applications from Ghana and Nigeria used public email addresses for work-history references rather than official school domains.</p>
+  </section>
+
+  <section class="article-section">
+    <h2>How large was the route?</h2>
+    <p>For the 2024–25 academic year, DfE transparency data records 1,076 applications from Nigeria, with 364 resulting in QTS and 599 declined. Ghana recorded 1,067 applications, with 196 resulting in QTS and 749 declined.</p>
+    <p>Those totals do not necessarily equal awards plus declines because some applications may have been under review or withdrawn.</p>
+  </section>
+
+  <section class="article-section">
+    <h2>What an affected teacher should check next</h2>
+    <p>Before spending money or changing plans, establish the facts that determine the person’s route: training country, current location, qualification, teaching experience, subject or age phase, employment position, and immigration or right-to-work status.</p>
+  </section>
+
+  <div class="fact">
+    <div class="eyebrow" style="color:#d7b97d">JP Assist</div>
+    <h2>Does this change affect your own plan?</h2>
+    <p>POSTCARD explains the public rule. JP Assist helps organize the personal facts that determine which questions and pathways need checking next.</p>
+    <a class="cta" href="jp-assist.html">Explore with JP Assist →</a>
+  </div>
+
+  <div class="sources">
+    <div class="eyebrow">Primary sources</div>
+    <h2 style="font-size:27px;margin:8px 0 14px">Evidence behind this POSTCARD</h2>
+    <ul>
+      <li>
+        <a href="https://www.gov.uk/government/publications/overseas-trained-teachers-apply-for-qualified-teacher-status-in-england/overseas-trained-teachers-apply-for-qualified-teacher-status-in-england" target="_blank" rel="noopener">UK Department for Education — Overseas-trained teachers: apply for qualified teacher status in England</a>
+        <div class="source-meta">Primary policy authority · Updated 9 September 2026</div>
+      </li>
+      <li>
+        <a href="https://www.gov.uk/government/publications/qts-applicants-and-awards-to-overseas-teachers--2/applications-2024-to-2025-academic-year" target="_blank" rel="noopener">UK Department for Education — Applications: 2024 to 2025 academic year</a>
+        <div class="source-meta">Primary transparency data · Published 27 August 2026</div>
+      </li>
+    </ul>
+  </div>
+</article>
+
+<section class="section" id="topics">
+  <div class="shell">
+    <div class="section-head"><div><div class="eyebrow">Topics</div><h2>Follow the context</h2></div></div>
+    <div class="context-grid">
+      <div class="context-card"><strong>Education</strong><span>Qualifications, schools, professional recognition and teaching pathways.</span></div>
+      <div class="context-card"><strong>Migration</strong><span>Mobility and right-to-work questions kept separate from professional recognition.</span></div>
+      <div class="context-card"><strong>World</strong><span>Local decisions understood in their wider international context.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="places">
+  <div class="shell">
+    <div class="section-head"><div><div class="eyebrow">Places</div><h2>Where this story matters</h2></div></div>
+    <div class="context-grid">
+      <div class="context-card"><strong>England</strong><span>The confirmed policy change applies to England’s direct QTS recognition service.</span></div>
+      <div class="context-card"><strong>Nigeria</strong><span>Teachers trained in Nigeria are among those directly affected by the eligibility change.</span></div>
+      <div class="context-card"><strong>Ghana</strong><span>Teachers trained in Ghana are also among those directly affected.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="newsletter" id="my-postcard">
+  <div class="shell">
+    <div class="newsletter-card">
+      <div class="eyebrow" style="color:#d7b97d">My POSTCARD</div>
+      <h2>News where you are. Intelligence about what you care about.</h2>
+      <p>Personalization and subscriber accounts are the next layer. This public front end does not pretend those services are connected before the backend is live.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="shell footer-grid">
+    <span>POSTCARD Intelligence · Discover what matters. Know what can be trusted.</span>
+    <div class="footer-links">
+      <a href="#story">Evidence</a>
+      <a href="jp-assist.html">JP Assist</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const menuButton = document.getElementById('menuButton');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const searchButton = document.getElementById('searchButton');
+  const searchPanel = document.getElementById('searchPanel');
+  const searchClose = document.getElementById('searchClose');
+  const searchInput = document.getElementById('siteSearch');
+  const searchResults = document.getElementById('searchResults');
+
+  function closeMenu(){
+    mobileMenu.hidden = true;
+    menuButton.setAttribute('aria-expanded','false');
+  }
+
+  function closeSearch(){
+    searchPanel.hidden = true;
+    searchButton.setAttribute('aria-expanded','false');
+  }
+
+  menuButton.addEventListener('click', function(){
+    const willOpen = mobileMenu.hidden;
+    closeSearch();
+    mobileMenu.hidden = !willOpen;
+    menuButton.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+  });
+
+  searchButton.addEventListener('click', function(){
+    const willOpen = searchPanel.hidden;
+    closeMenu();
+    searchPanel.hidden = !willOpen;
+    searchButton.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+    if(willOpen){
+      setTimeout(() => searchInput.focus(), 0);
+    }
+  });
+
+  searchClose.addEventListener('click', closeSearch);
+
+  document.querySelectorAll('.mobile-menu a').forEach(function(link){
+    link.addEventListener('click', closeMenu);
+  });
+
+  searchInput.addEventListener('input', function(){
+    const q = searchInput.value.trim().toLowerCase();
+    let shown = 0;
+    searchResults.querySelectorAll('a').forEach(function(link){
+      const haystack = (link.textContent + ' ' + (link.dataset.search || '')).toLowerCase();
+      const match = !q || haystack.includes(q);
+      link.hidden = !match;
+      if(match) shown++;
+    });
+
+    let empty = searchResults.querySelector('.search-empty');
+    if(!shown){
+      if(!empty){
+        empty = document.createElement('div');
+        empty.className = 'search-empty';
+        empty.textContent = 'No matching section in this pilot story.';
+        searchResults.appendChild(empty);
+      }
+    } else if(empty){
+      empty.remove();
+    }
+  });
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){
+      closeMenu();
+      closeSearch();
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
