@@ -30,7 +30,6 @@ header{position:sticky;top:0;z-index:20;background:rgba(245,241,232,.96);backdro
 .icon{cursor:pointer;display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:999px}
 .icon:focus-visible,.desktop-nav a:focus-visible,.mobile-menu a:focus-visible,.search-results a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 
-
 .mobile-menu[hidden],.search-panel[hidden]{display:none!important}
 @media(min-width:900px){
   .desktop-nav{display:flex}
@@ -133,9 +132,15 @@ footer{padding:28px 0;border-top:1px solid var(--line);color:var(--muted);font-s
 
 @media(max-width:899px){
   .desktop-nav{display:none!important}
-  .top{height:82px}
-  header{width:100%;overflow:visible}
-  .brand strong{font-size:25px}
+  header{width:100%;max-width:100vw;overflow-x:clip}
+  .top{height:82px;grid-template-columns:40px minmax(0,1fr) 40px;gap:0;max-width:100%}
+  .brand{min-width:0;width:100%;overflow:hidden}
+  .brand strong{font-size:clamp(21px,6.5vw,25px);letter-spacing:.08em;white-space:nowrap}
+  .brand small{font-size:7px;letter-spacing:.25em;white-space:nowrap}
+  .menu-button,.search-button{width:40px;min-width:40px}
+  .mobile-menu{max-width:100vw;overflow-x:hidden}
+  .mobile-menu-inner{max-width:100%;overflow-x:hidden}
+  .mobile-menu-inner a{max-width:100%;overflow:hidden}
   .search-results{grid-template-columns:1fr}
   .hero{padding-top:22px}
   .hero-image{border-radius:18px;aspect-ratio:4/3}
@@ -144,10 +149,16 @@ footer{padding:28px 0;border-top:1px solid var(--line);color:var(--muted);font-s
   .briefs,.context-grid{grid-template-columns:1fr}
   .newsletter-card{border-radius:18px;padding:24px 20px}
 }
+@media(max-width:360px){
+  .shell{width:min(calc(100% - 20px),var(--max))}
+  .top{grid-template-columns:38px minmax(0,1fr) 38px}
+  .brand strong{font-size:21px}
+  .menu-button,.search-button{width:38px;min-width:38px}
+}
 </style>
 </head>
 <body>
-<!-- build: POSTCARD Intelligence v0.1.8 final front-end -->
+<!-- build: POSTCARD Intelligence v0.1.9 mobile polish -->
 <header>
   <div class="top shell">
     <button class="icon menu-button" id="menuButton" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileMenu">☰</button>
