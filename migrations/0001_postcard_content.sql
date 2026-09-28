@@ -56,3 +56,26 @@ CREATE TABLE IF NOT EXISTS postcard_distribution_events (
 CREATE INDEX IF NOT EXISTS idx_postcard_distribution_content ON postcard_distribution_events(content_id);
 CREATE INDEX IF NOT EXISTS idx_postcard_distribution_time ON postcard_distribution_events(occurred_at);
 CREATE INDEX IF NOT EXISTS idx_postcard_distribution_channel ON postcard_distribution_events(channel);
+
+
+CREATE TABLE IF NOT EXISTS postcard_intent_handoffs (
+  handoff_id TEXT PRIMARY KEY,
+  content_id TEXT,
+  source_unit TEXT NOT NULL,
+  target_unit TEXT NOT NULL,
+  intent_summary TEXT NOT NULL,
+  state TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  updated_at TEXT,
+  personal_data_included INTEGER NOT NULL DEFAULT 0,
+  consent_reference TEXT,
+  authority_reference TEXT,
+  correlation_id TEXT,
+  evidence_json TEXT NOT NULL DEFAULT '[]',
+  metadata_json TEXT NOT NULL DEFAULT '{}',
+  FOREIGN KEY (content_id) REFERENCES postcard_content(id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_postcard_handoffs_target ON postcard_intent_handoffs(target_unit);
+CREATE INDEX IF NOT EXISTS idx_postcard_handoffs_state ON postcard_intent_handoffs(state);
+CREATE INDEX IF NOT EXISTS idx_postcard_handoffs_correlation ON postcard_intent_handoffs(correlation_id);
