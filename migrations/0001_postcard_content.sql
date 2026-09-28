@@ -36,3 +36,23 @@ CREATE TABLE IF NOT EXISTS postcard_content_events (
 
 CREATE INDEX IF NOT EXISTS idx_postcard_content_events_content ON postcard_content_events(content_id);
 CREATE INDEX IF NOT EXISTS idx_postcard_content_events_time ON postcard_content_events(occurred_at);
+
+
+CREATE TABLE IF NOT EXISTS postcard_distribution_events (
+  event_id TEXT PRIMARY KEY,
+  content_id TEXT NOT NULL,
+  event_type TEXT NOT NULL,
+  channel TEXT NOT NULL,
+  occurred_at TEXT NOT NULL,
+  audience_reference TEXT,
+  outcome_type TEXT,
+  target_unit TEXT,
+  transaction_id TEXT,
+  evidence_json TEXT NOT NULL DEFAULT '[]',
+  metadata_json TEXT NOT NULL DEFAULT '{}',
+  FOREIGN KEY (content_id) REFERENCES postcard_content(id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_postcard_distribution_content ON postcard_distribution_events(content_id);
+CREATE INDEX IF NOT EXISTS idx_postcard_distribution_time ON postcard_distribution_events(occurred_at);
+CREATE INDEX IF NOT EXISTS idx_postcard_distribution_channel ON postcard_distribution_events(channel);
