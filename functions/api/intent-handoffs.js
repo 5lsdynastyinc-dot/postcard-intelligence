@@ -1,7 +1,10 @@
+import { authorizeHouseApi } from "../lib/house-auth.js";
 import { validateIntentHandoff } from "../lib/intent-handoff.js";
 const json=(b,s=200)=>new Response(JSON.stringify(b,null,2),{status:s,headers:{"content-type":"application/json; charset=UTF-8","cache-control":"no-store"}});
 
 export async function onRequestGet(context){
+  const auth=authorizeHouseApi(context);
+  if(!auth.ok)return new Response(JSON.stringify({ok:false,error:auth.error}),{status:auth.status,headers:{"content-type":"application/json; charset=UTF-8","cache-control":"no-store"}});
   try{
     const rows=await context.env.DB.prepare("SELECT * FROM postcard_intent_handoffs ORDER BY created_at DESC LIMIT 100").all();
     return json({ok:true,items:rows.results||[]});
@@ -9,6 +12,8 @@ export async function onRequestGet(context){
 }
 
 export async function onRequestPost(context){
+  const auth=authorizeHouseApi(context);
+  if(!auth.ok)return new Response(JSON.stringify({ok:false,error:auth.error}),{status:auth.status,headers:{"content-type":"application/json; charset=UTF-8","cache-control":"no-store"}});
   let h; try{h=await context.request.json();}catch{return json({ok:false,errors:["invalid JSON"]},400);}
   const check=validateIntentHandoff(h); if(!check.ok)return json(check,400);
   try{
