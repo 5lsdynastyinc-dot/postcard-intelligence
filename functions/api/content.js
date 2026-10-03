@@ -1,3 +1,4 @@
+import { authorizeHouseApi } from "../lib/house-auth.js";
 import { validateContentRecord } from "../lib/content-state.js";
 
 const json = (body, status = 200) => new Response(JSON.stringify(body, null, 2), {
@@ -6,6 +7,8 @@ const json = (body, status = 200) => new Response(JSON.stringify(body, null, 2),
 });
 
 export async function onRequestGet(context) {
+  const auth=authorizeHouseApi(context);
+  if(!auth.ok)return new Response(JSON.stringify({ok:false,error:auth.error}),{status:auth.status,headers:{"content-type":"application/json; charset=UTF-8","cache-control":"no-store"}});
   try {
     const rows = await context.env.DB.prepare(
       "SELECT id,title,state,source_unit,evidence_state,created_at,updated_at,published_at,corrected_at,correction_of,provenance_json FROM postcard_content ORDER BY created_at DESC LIMIT 50"
@@ -17,6 +20,8 @@ export async function onRequestGet(context) {
 }
 
 export async function onRequestPost(context) {
+  const auth=authorizeHouseApi(context);
+  if(!auth.ok)return new Response(JSON.stringify({ok:false,error:auth.error}),{status:auth.status,headers:{"content-type":"application/json; charset=UTF-8","cache-control":"no-store"}});
   let record;
   try { record = await context.request.json(); }
   catch { return json({ ok: false, errors: ["invalid JSON"] }, 400); }
