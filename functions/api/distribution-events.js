@@ -1,8 +1,11 @@
+import { authorizeHouseApi } from "../lib/house-auth.js";
 import { validateDistributionEvent } from "../lib/distribution-events.js";
 
 const json=(body,status=200)=>new Response(JSON.stringify(body,null,2),{status,headers:{"content-type":"application/json; charset=UTF-8","cache-control":"no-store"}});
 
 export async function onRequestGet(context){
+  const auth=authorizeHouseApi(context);
+  if(!auth.ok)return new Response(JSON.stringify({ok:false,error:auth.error}),{status:auth.status,headers:{"content-type":"application/json; charset=UTF-8","cache-control":"no-store"}});
   try{
     const contentId=new URL(context.request.url).searchParams.get("content_id");
     const stmt=contentId
@@ -14,6 +17,8 @@ export async function onRequestGet(context){
 }
 
 export async function onRequestPost(context){
+  const auth=authorizeHouseApi(context);
+  if(!auth.ok)return new Response(JSON.stringify({ok:false,error:auth.error}),{status:auth.status,headers:{"content-type":"application/json; charset=UTF-8","cache-control":"no-store"}});
   let event;
   try{ event=await context.request.json(); }catch{ return json({ok:false,errors:["invalid JSON"]},400); }
   const check=validateDistributionEvent(event);
