@@ -33,12 +33,20 @@ remains insert-only: it does not establish destination acceptance or case execut
 No live claim verifier, edition orchestrator, room connector, subscriber service,
 production migration or external distribution is activated by this patch.
 
-Exact-version release is handled separately from intake. The release transition
-requires the immutable creation version and SHA-256 identity, applicable authority reference,
-actor and decision time. Publication additionally requires an active approval for
-the same version and hash. Existing records require an explicit review before
-release. Migration `0002_exact_version_release.sql` adds this audit
-record without relocating specialist Knowledge Objects into the publication store.
+Release decisions are currently fail-closed: authenticated, well-formed requests
+return HTTP 503 HOUSE_RELEASE_AUTHORITY_UNVERIFIED without reading or writing D1.
+Review found that caller-supplied actor/authority references and a shared bearer
+credential cannot establish delegated House authority. The incomplete transition
+has been removed; a payload flag or configuration toggle cannot enable it.
+The canonical content SHA-256 utility and additive migration remain preparation
+artifacts, not an activated publication capability.
+
+To reconnect, verify the existing House authority resolver, role/room/scope,
+expiry and revocation, then bind all six House gate decisions to the exact content
+and evidence versions. Use server time, atomic compare-and-set plus audit, check
+concurrent updates, and prove that revoked/expired/superseded approval cannot be
+reused. Rule 009 must invalidate all affected outputs. Do not create an alternative
+authority registry or treat an approval reference as resolved proof.
 
 Deployment uses the repository's connected Cloudflare Pages Git integration. Do
 not add a second Wrangler deployment workflow without configured credentials and
