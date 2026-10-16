@@ -1,5 +1,5 @@
 import { authorizeHouseApi } from "../lib/house-auth.js";
-import { validateDistributionEvent } from "../lib/distribution-events.js";
+import { validateDistributionEvent, toHouseOutcomeEnvelope } from "../lib/distribution-events.js";
 
 const json=(body,status=200)=>new Response(JSON.stringify(body,null,2),{status,headers:{"content-type":"application/json; charset=UTF-8","cache-control":"no-store"}});
 
@@ -31,8 +31,9 @@ export async function onRequestPost(context){
     ).bind(
       event.event_id,event.content_id,event.event_type,event.channel,event.occurred_at,
       event.audience_reference||null,event.outcome_type||null,event.target_unit||null,
-      event.transaction_id||null,JSON.stringify(event.evidence||[]),JSON.stringify(event.metadata||{})
+      event.transaction_id||null,JSON.stringify(event.evidence||[]),JSON.stringify({...(event.metadata||{}),house_outcome:toHouseOutcomeEnvelope(event)})
     ).run();
     return json({ok:true,event_id:event.event_id},201);
   }catch(error){ return json({ok:false,message:error.message},500); }
 }
+

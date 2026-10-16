@@ -1,3 +1,4 @@
+import { isRecord, checkFields, checkTimes, checkEvidence } from "./record-validation.js";
 // POSTCARD distribution/outcome event contract v0.2
 // Implements the House shared distribution/outcome envelope while preserving
 // POSTCARD content_id compatibility. Revenue remains authoritative in Revenue Pulse.
@@ -12,10 +13,12 @@ export const ATTRIBUTION_STRENGTHS = Object.freeze(["DIRECT","ASSISTED","UNKNOWN
 export const EVIDENCE_CONFIDENCE = Object.freeze(["OBSERVED","REPORTED","INFERRED"]);
 
 export function validateDistributionEvent(event = {}) {
+  if (!isRecord(event)) return { ok:false, errors:["event must be an object"] };
   const errors = [];
-  for (const k of ["event_id","content_id","event_type","occurred_at","channel"]) {
-    if (event[k] === undefined || event[k] === null || event[k] === "") errors.push("missing: "+k);
-  }
+  checkFields(event, ["event_id","content_id","event_type","occurred_at","channel"], errors);
+  checkTimes(event, ["occurred_at"], errors);
+  checkEvidence(event, errors);
+  if (event.event_type === "DISTRIBUTED" && !event.authority_reference) errors.push("DISTRIBUTED requires a release/delegation authority reference");
   if (event.event_type && !DISTRIBUTION_EVENT_TYPES.includes(event.event_type)) errors.push("invalid event_type");
   if (event.attribution_strength && !ATTRIBUTION_STRENGTHS.includes(event.attribution_strength)) errors.push("invalid attribution_strength");
   if (event.confidence && !EVIDENCE_CONFIDENCE.includes(event.confidence)) errors.push("invalid confidence");
@@ -44,7 +47,8 @@ export function toHouseOutcomeEnvelope(event = {}) {
     consent_reference: event.consent_reference || null,
     authority_reference: event.authority_reference || null,
     transaction_reference: event.transaction_id || null,
-    confidence: event.confidence || "OBSERVED",
+    confidence: event.confidence || "REPORTED",
     attribution_strength: event.attribution_strength || "UNKNOWN"
   };
 }
+
