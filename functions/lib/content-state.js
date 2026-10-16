@@ -24,6 +24,7 @@ export function validateContentRecord(record = {}) {
   if (!isRecord(record)) return { ok: false, errors: ["record must be an object"] };
   const errors = [];
   checkFields(record, ["id", "title", "state", "created_at"], errors);
+  if (record.content_version !== undefined && (typeof record.content_version !== "string" || !record.content_version.trim())) errors.push("invalid content_version");
   checkTimes(record, ["created_at", "updated_at", "published_at", "corrected_at"], errors);
   if (!Array.isArray(record.provenance)) errors.push("provenance must be an array");
   if (record.content !== undefined && !isRecord(record.content)) errors.push("content must be an object");
@@ -32,6 +33,17 @@ export function validateContentRecord(record = {}) {
   if (record.published_at && record.state === "DRAFT") errors.push("draft cannot have published_at");
   if (record.correction_of && record.state !== "CORRECTED") errors.push("correction_of requires CORRECTED state");
   return { ok: errors.length === 0, errors };
+}
+
+export function validateReleaseRequest(record = {}) {
+  if (!isRecord(record)) return { ok:false, errors:["record must be an object"] };
+  const errors=[];
+  checkFields(record,["decision","content_id","content_version","content_hash","actor","authority_reference","decided_at"],errors);
+  checkTimes(record,["decided_at","expires_at"],errors);
+  if(!["APPROVE","PUBLISH","DENY","REVOKE"].includes(record.decision)) errors.push("invalid decision");
+  if(record.content_hash && !/^[a-f0-9]{64}$/.test(record.content_hash)) errors.push("content_hash must be SHA-256 hex");
+  if(record.evidence !== undefined && (!Array.isArray(record.evidence) || !record.evidence.every(value=>typeof value==="string" && value.trim()))) errors.push("evidence must be an array of references");
+  return {ok:errors.length===0,errors};
 }
 
 // This endpoint is intake only. Publishing requires a separate governed transition

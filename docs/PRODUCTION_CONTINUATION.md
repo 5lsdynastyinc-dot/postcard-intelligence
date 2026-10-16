@@ -15,14 +15,14 @@ evidence requirements are maintained in private Source at
 ## Scope of this implementation patch
 - Intake creates DRAFT/REVIEW_REQUIRED only. A server bearer credential is not
   exact-version editorial approval. Requests creating approved/published/corrected/
-  retracted/archived content must use the future reconciled governed transition.
-  This intentionally closes a prior bypass; it does not implement that transition.
+  retracted/archived content must use the governed release transition.
+  This intentionally closes the prior intake bypass.
 - Input types/timestamps and evidence enums are checked; drafts may retain gaps.
 - D1 content + creation event writes use an atomic batch.
 - Missing observation confidence defaults to REPORTED, never OBSERVED.
 - OBSERVED or direct/assisted attribution requires a referenced evidence artifact.
 - Distribution and handoff persist the full mapped House envelope in existing
-  metadata_json; no database migration or new House schema is introduced.
+  metadata_json; the event contracts are not replaced.
 - Terminal handoff states map to existing OTHER vocabulary with their exact state
   retained; they cannot falsely become a new proposal. Authority applies to
   AUTHORIZED, ACCEPTED and COMPLETED; personal-data flags are boolean-validated.
@@ -32,6 +32,13 @@ still need connection to the actual authority/evidence resolver. The handoff API
 remains insert-only: it does not establish destination acceptance or case execution.
 No live claim verifier, edition orchestrator, room connector, subscriber service,
 production migration or external distribution is activated by this patch.
+
+Exact-version release is handled separately from intake. The release transition
+requires the immutable creation version and SHA-256 identity, applicable authority reference,
+actor and decision time. Publication additionally requires an active approval for
+the same version and hash. Existing records require an explicit review before
+release. Migration `0002_exact_version_release.sql` adds this audit
+record without relocating specialist Knowledge Objects into the publication store.
 
 ## Three blocks
 1. Reconcile/harden authoritative engine + publication adapter; verify persistence,

@@ -7,6 +7,8 @@ import {validateIntentHandoff,toHouseHandoffEnvelope} from '../functions/lib/int
 import {onRequestPost as contentPost} from '../functions/api/content.js';
 import {onRequestPost as distributionPost} from '../functions/api/distribution-events.js';
 import {onRequestPost as handoffPost} from '../functions/api/intent-handoffs.js';
+import {onRequestPost as releasePost} from '../functions/api/content-release.js';
+import {contentHash} from '../functions/lib/content-identity.js';
 const stamp='2026-10-16T10:00:00Z';
 const draft=()=>({id:'TEST-ONLY',title:'Local fixture',state:'DRAFT',created_at:stamp,provenance:[]});
 const event=()=>({event_id:'TEST-ONLY',content_id:'TEST-CONTENT',event_type:'VIEWED',channel:'WEB',occurred_at:stamp});
@@ -17,6 +19,12 @@ function context(payload, db, token='local-test-token') {
 function spyDB(failBatch=false) {
   const statements=[]; const batches=[]; const runs=[];
   return {statements,batches,runs,prepare(sql){const s={sql,values:[],bind(...v){this.values=v;return this;},async run(){runs.push(this);return {success:true};}};statements.push(s);return s;},async batch(s){batches.push(s);if(failBatch)throw new Error('controlled local batch failure');return s.map(()=>({success:true}));}};
+}
+
+function releaseDB(row,approval=null) {
+  const db=spyDB();
+  db.prepare=function(sql){const s={sql,values:[],bind(...v){this.values=v;return this;},async first(){if(sql.includes('release_authorizations'))return approval;return row;},async run(){db.runs.push(this);return {success:true};}};db.statements.push(s);return s;};
+  return db;
 }
 test('original contract cases remain intact',()=>assert.equal(runContentStateContractTests().ok,true));
 test('incomplete draft remains valid intake',()=>assert.equal(validateContentIntake(draft()).ok,true));
@@ -71,4 +79,23 @@ test('handoff persisted envelope preserves terminal state',async()=>{
   assert.equal((await handoffPost(context(h,db))).status,201);
   const stored=JSON.parse(db.runs[0].values[13]).house_handoff;
   assert.equal(stored.event_type,'OTHER');assert.equal(stored.metadata.handoff_state,'CANCELLED');assert.equal(stored.correlation_id,h.correlation_id);
+});
+test('content identity is stable across object key ordering and changes with material content',async()=>{
+  const a={...draft(),content:{b:2,a:1}};const b={...draft(),content:{a:1,b:2}};
+  assert.equal(await contentHash(a),await contentHash(b));
+  assert.notEqual(await contentHash(a),await contentHash({...a,title:'Changed'}));
+});
+test('exact-version release rejects changed content identity',async()=>{
+  const request={decision:'APPROVE',content_id:'C1',content_version:'1',content_hash:'a'.repeat(64),actor:'REVIEWER',authority_reference:'AUTH-1',decided_at:stamp};
+  const db=releaseDB({id:'C1',title:'Stored',state:'REVIEW_REQUIRED',source_unit:'POSTCARD',evidence_state:'REPORTED',created_at:'1',updated_at:null,provenance_json:'[]',content_json:'{}'});
+  const response=await releasePost(context(request,db));
+  assert.equal(response.status,409);assert.equal(db.batches.length,0);
+});
+test('publication requires an active approval for the exact version',async()=>{
+  const row={id:'C1',title:'Stored',state:'APPROVED',source_unit:'POSTCARD',evidence_state:'REPORTED',created_at:'1',updated_at:null,provenance_json:'[]',content_json:'{}'};
+  const request={decision:'PUBLISH',content_id:'C1',content_version:'1',content_hash:await contentHash({...row,provenance:[],content:{}}),actor:'PUBLISHER',authority_reference:'AUTH-1',decided_at:stamp};
+  const noApproval=releaseDB(row);
+  assert.equal((await releasePost(context(request,noApproval))).status,409);
+  const approved=releaseDB(row,{authorization_id:'AUTHZ-1'});
+  assert.equal((await releasePost(context(request,approved))).status,200);assert.equal(approved.batches.length,1);
 });
