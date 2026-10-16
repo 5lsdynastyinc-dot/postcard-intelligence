@@ -40,6 +40,11 @@ the same version and hash. Existing records require an explicit review before
 release. Migration `0002_exact_version_release.sql` adds this audit
 record without relocating specialist Knowledge Objects into the publication store.
 
+Deployment uses the repository's connected Cloudflare Pages Git integration. Do
+not add a second Wrangler deployment workflow without configured credentials and
+a migration/runbook decision. The provider check must identify the deployed commit;
+database migration and health evidence remain separate release gates.
+
 ## Three blocks
 1. Reconcile/harden authoritative engine + publication adapter; verify persistence,
    authorization, original Rule 009 behavior, deployment and recovery.
