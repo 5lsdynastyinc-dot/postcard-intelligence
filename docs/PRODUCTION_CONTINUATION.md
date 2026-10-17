@@ -74,3 +74,18 @@ documented projects, private stories or observed commercial outcomes.
 and keep House Integration and Specialist Integrity separate. A launch checklist
 and passing local CI are not the House maturity ledger. Record external provider
 and human-evidence gaps explicitly; never seed fake audience events to close them.
+
+## 17 October intake trust repair
+
+Until the existing House resolvers are connected, intake also rejects caller-claimed
+verification, observed confidence, direct/assisted attribution, completed delivery,
+authorized/accepted/completed handoffs and personal-data handoffs. References and
+payload approval flags cannot open these gates. DRAFT/REVIEW_REQUIRED content with
+REPORTED evidence, reported/inferred outcomes with UNKNOWN attribution, and
+non-personal proposed handoffs remain available to authenticated callers.
+
+Duplicate immutable IDs return 409 without overwriting content or duplicating audit.
+Storage failures expose stable error codes rather than provider messages. File-backed
+SQLite tests exercise restart persistence, audit failure rollback, duplicate conflict,
+foreign keys and authenticated read/write boundaries. These local tests do not claim
+production API credential pairing or House service integration.
