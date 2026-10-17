@@ -89,3 +89,12 @@ Storage failures expose stable error codes rather than provider messages. File-b
 SQLite tests exercise restart persistence, audit failure rollback, duplicate conflict,
 foreign keys and authenticated read/write boundaries. These local tests do not claim
 production API credential pairing or House service integration.
+
+Transport compatibility: the server can use the existing encrypted binding named
+`POSTCARD_ADMIN_KEY ` (including its historical trailing space) when the canonical
+`POSTCARD_API_TOKEN` is absent. This reconnects the existing operator credential
+without exposing or copying its value. An explicitly configured canonical token,
+including an empty value used to disable transport, always overrides the legacy
+binding. Rotate by setting the canonical secret and updating authorized callers;
+then remove the legacy setting after caller verification. This credential permits
+reported intake only; it does not resolve House role, consent, evidence or release.
