@@ -64,10 +64,10 @@ test('public intake refuses publication before writing',async()=>{
   const db=spyDB();assert.equal((await contentPost(context({...draft(),state:'PUBLISHED'},db))).status,400);assert.equal(db.statements.length,0);
 });
 test('distribution envelope survives persistence and metadata cannot override it',async()=>{
-  const db=spyDB();const e={...event(),correlation_id:'TEST-CORRELATION',distribution_id:'TEST-DISTRIBUTION',evidence_reference:'TEST-RECEIPT',confidence:'OBSERVED',metadata:{house_outcome:{confidence:'FAKE'}}};
+  const db=spyDB();const e={...event(),correlation_id:'TEST-CORRELATION',distribution_id:'TEST-DISTRIBUTION',evidence_reference:'TEST-RECEIPT',confidence:'REPORTED',metadata:{house_outcome:{confidence:'FAKE'}}};
   assert.equal((await distributionPost(context(e,db))).status,201);
   const stored=JSON.parse(db.runs[0].values[10]).house_outcome;
-  assert.equal(stored.correlation_id,e.correlation_id);assert.equal(stored.evidence_reference,e.evidence_reference);assert.equal(stored.confidence,'OBSERVED');
+  assert.equal(stored.correlation_id,e.correlation_id);assert.equal(stored.evidence_reference,e.evidence_reference);assert.equal(stored.confidence,'REPORTED');
 });
 test('handoff persisted envelope preserves terminal state',async()=>{
   const db=spyDB();const h={...handoff(),state:'CANCELLED',correlation_id:'TEST-CORRELATION'};
