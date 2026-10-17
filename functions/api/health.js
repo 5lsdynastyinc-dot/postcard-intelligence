@@ -1,3 +1,5 @@
+import { houseApiConfigured } from '../lib/house-auth.js';
+
 const probes = [
   'SELECT id,title,state,source_unit,evidence_state,created_at,updated_at,published_at,corrected_at,correction_of,provenance_json,content_json FROM postcard_content LIMIT 0',
   'SELECT event_id,content_id,event_type,from_state,to_state,actor,occurred_at,evidence_json,note FROM postcard_content_events LIMIT 0',
@@ -12,7 +14,7 @@ export async function onRequestGet(context) {
   const checks = {
     database: 'unavailable',
     adapter_schema: 'unverified',
-    transport_auth: env.POSTCARD_API_TOKEN ? 'configured' : 'unconfigured',
+    transport_auth: houseApiConfigured(env) ? 'configured' : 'unconfigured',
     publication: 'blocked'
   };
   try {

@@ -1,3 +1,4 @@
+import { intakeBlocker, storageFailure } from "../lib/intake-boundary.js";
 import { authorizeHouseApi } from "../lib/house-auth.js";
 import { validateContentIntake } from "../lib/content-state.js";
 
@@ -15,7 +16,7 @@ export async function onRequestGet(context) {
     ).all();
     return json({ ok: true, items: rows.results || [] });
   } catch (error) {
-    return json({ ok: false, message: error.message, migration_required: true }, 500);
+    const failure=storageFailure(error); return json(failure.body,failure.status);
   }
 }
 
@@ -28,6 +29,8 @@ export async function onRequestPost(context) {
 
   const check = validateContentIntake(record);
   if (!check.ok) return json(check, 400);
+  const blocker = intakeBlocker("content", record);
+  if (blocker) return json({ok:false,error:blocker,status:"EVIDENCE_REQUIRED"},503);
 
   try {
     const insertContent = context.env.DB.prepare(
@@ -54,7 +57,7 @@ export async function onRequestPost(context) {
 
     return json({ ok: true, id: record.id, state: record.state }, 201);
   } catch (error) {
-    return json({ ok: false, message: error.message }, 500);
+    const failure=storageFailure(error); return json(failure.body,failure.status);
   }
 }
 
