@@ -1,3 +1,4 @@
+import { intakeBlocker, storageFailure } from "../lib/intake-boundary.js";
 import { authorizeHouseApi } from "../lib/house-auth.js";
 import { validateDistributionEvent, toHouseOutcomeEnvelope } from "../lib/distribution-events.js";
 
@@ -13,7 +14,7 @@ export async function onRequestGet(context){
       : context.env.DB.prepare("SELECT * FROM postcard_distribution_events ORDER BY occurred_at DESC LIMIT 100");
     const rows=await stmt.all();
     return json({ok:true,items:rows.results||[]});
-  }catch(error){ return json({ok:false,message:error.message,migration_required:true},500); }
+  }catch(error){ const failure=storageFailure(error); return json(failure.body,failure.status); }
 }
 
 export async function onRequestPost(context){
@@ -23,6 +24,8 @@ export async function onRequestPost(context){
   try{ event=await context.request.json(); }catch{ return json({ok:false,errors:["invalid JSON"]},400); }
   const check=validateDistributionEvent(event);
   if(!check.ok) return json(check,400);
+  const blocker = intakeBlocker("distribution", event);
+  if (blocker) return json({ok:false,error:blocker,status:"EVIDENCE_REQUIRED"},503);
   try{
     await context.env.DB.prepare(
       `INSERT INTO postcard_distribution_events
@@ -34,6 +37,6 @@ export async function onRequestPost(context){
       event.transaction_id||null,JSON.stringify(event.evidence||[]),JSON.stringify({...(event.metadata||{}),house_outcome:toHouseOutcomeEnvelope(event)})
     ).run();
     return json({ok:true,event_id:event.event_id},201);
-  }catch(error){ return json({ok:false,message:error.message},500); }
+  }catch(error){ const failure=storageFailure(error); return json(failure.body,failure.status); }
 }
 
