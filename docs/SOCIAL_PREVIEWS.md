@@ -14,3 +14,10 @@ Open Graph title/description/image/site name represent the upper part of the edi
 Source: https://ogp.me/ (checked 18 October 2026). Existing approved body text and room routing are unchanged. No paid service, tracking script or model call required. Version image filenames when an approved image changes; metadata changes may remain cached by social platforms. Re-paste the link in a new message and wait for its preview; old messages may retain an earlier card. Never promise cached messages will update.
 
 This is implemented for public HTML editions, not proof that every legacy route or the undeployed specialist runtime is connected. New delivery paths must reuse this contract and pass the same release checks. Rollback: revert the social-preview PR; retain the approved edition and its original asset in history.
+
+## Editorial imagery and future advertising
+Use two or three relevant pictures when they add meaning, not as a forced quota. Keep the lead image in social metadata; supporting images should use public versioned URLs, truthful alt text, captions/provenance, explicit dimensions and lazy loading. Do not present generated scenes as customers, platform founders or actual business outcomes.
+
+An inert HTML template marks an optional advertising position after a complete editorial section in the inaugural LEYE edition. It renders no empty space, loads no ad script, performs no tracking and is not active inventory. Future activation requires approved creative/destination, an obvious Advertisement or Sponsored label, evidence review of claims, privacy/cost checks for any third-party integration, and existing release authority. Keep ads distinct from sources, editorial advice and House Spotlight; do not imply an advertiser's payment establishes credibility.
+
+Platform examples require dated sources and clear metric definitions; user growth is not earnings, and selected successful platforms are not typical business outcomes. Maintain an update note when materially expanding an edition.
