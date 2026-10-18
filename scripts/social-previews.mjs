@@ -13,7 +13,7 @@ for(const file of readdirSync(resolve(root,'editions')).filter(f=>f.endsWith('.h
   for(const key of ['title','description','url','image','imageAlt','imageType','section']) if(typeof e[key]!=='string'||!e[key].trim()) throw Error('missing '+key);
   const u=new URL(e.url),i=new URL(e.image);
   if(u.protocol!=='https:'||i.protocol!=='https:'||u.origin!==i.origin||u.hostname!=='postcard-intelligence.pages.dev') throw Error('use canonical HTTPS URLs on POSTCARD');
-  if(!Number.isInteger(e.imageWidth)||e.imageWidth<300||!Number.isInteger(e.imageHeight)||e.imageHeight<157) throw Error('invalid image dimensions');
+  if(!Number.isInteger(e.imageWidth)||e.imageWidth<600||!Number.isInteger(e.imageHeight)||e.imageHeight<315) throw Error('invalid image dimensions');
   if(!/\.(jpg|jpeg|png)$/.test(i.pathname)||!existsSync(resolve(root,'.'+i.pathname))) throw Error('public JPEG/PNG asset missing');
   let source=readFileSync(resolve(root,'editions',file),'utf8');
   if(!source.includes('<h1>'+esc(e.title)+'</h1>')) throw Error('preview headline differs from article');
@@ -26,7 +26,9 @@ for(const file of readdirSync(resolve(root,'editions')).filter(f=>f.endsWith('.h
   const outside=source.replace(pattern,'');
   if(/<meta\s+(?:property|name)=["'](?:og:|twitter:)/i.test(outside)) throw Error('social tags outside managed block');
   const expected=source.replace(/<meta name="description" content="[^"]*">/,'<meta name="description" content="'+esc(e.description)+'">');
-  const output=matches.length?expected.replace(pattern,block):expected.replace('</head>',block+'\n</head>');
+  const clean=expected.replace(pattern,'').replace(/\n+(?=<\/head>)/g,'');
+  const output=clean.replace(/(<meta charset="utf-8">)\n*/, '$1\n'+block+'\n');
+  if(!output.includes(block)||output.indexOf(block)>1024) throw Error('preview metadata must start within first 1024 characters');
   if(check){if(output!==source) throw Error('metadata stale: run node scripts/social-previews.mjs');}
   else writeFileSync(resolve(root,'editions',file),output);
  }catch(err){errors.push(file+': '+err.message);}
