@@ -1,0 +1,149 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f1e8"><meta name="description" content="LEYE DIGITAL — launching soon — practical digital business education from POSTCARD and LEYE DIGITAL."><title>LEYE DIGITAL — launching soon | POSTCARD</title><link rel="canonical" href="https://postcard-intelligence.pages.dev/rooms/leye-digital"><style>
+:root{
+  --paper:#f5f1e8;--surface:#fffdf9;--ink:#17232d;--muted:#68747d;
+  --line:#d9d2c4;--accent:#9b6d32;--green:#29443d;--max:1180px
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:92px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}
+a{color:inherit}
+.shell{width:min(calc(100% - 32px),var(--max));margin:auto}
+header{position:sticky;top:0;z-index:20;background:rgba(245,241,232,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top{height:74px;display:grid;grid-template-columns:44px 1fr 44px;align-items:center}
+.brand{text-align:center;text-decoration:none;line-height:1;display:flex;flex-direction:column;align-items:center}
+.brand strong{font-family:Georgia,"Times New Roman",serif;font-size:26px;letter-spacing:.11em}
+.brand small{font-size:8px;letter-spacing:.34em;margin-top:6px}
+.icon{border:0;background:none;font-size:23px;color:var(--ink)}
+.desktop-nav{display:none;gap:25px;justify-content:center;padding-bottom:11px}
+.desktop-nav a{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;white-space:nowrap}
+.icon{cursor:pointer;display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:999px}
+.icon:focus-visible,.desktop-nav a:focus-visible,.mobile-menu a:focus-visible,.search-results a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+.mobile-menu[hidden],.search-panel[hidden]{display:none!important}
+@media(min-width:900px){
+  .desktop-nav{display:flex}
+  .menu-button{visibility:hidden;pointer-events:none}
+}
+
+.mobile-menu{
+  border-top:1px solid var(--line);
+  background:var(--paper);
+  box-shadow:0 14px 30px rgba(23,35,45,.10);
+  width:100%;
+}
+.mobile-menu-inner{
+  display:flex;
+  flex-direction:column;
+  width:min(calc(100% - 32px),var(--max));
+  margin:0 auto;
+  padding:8px 0 14px;
+  gap:0;
+}
+.mobile-menu-inner a{
+  display:block;
+  width:100%;
+  min-width:0;
+  padding:15px 2px;
+  border-bottom:1px solid rgba(217,210,196,.72);
+  font-size:15px;
+  line-height:1.2;
+  font-weight:700;
+  letter-spacing:.01em;
+  text-transform:none;
+  text-decoration:none;
+  white-space:normal;
+  overflow-wrap:normal;
+  word-break:normal;
+}
+.mobile-menu-inner a:last-child{border-bottom:0}
+
+.search-panel{border-top:1px solid var(--line);background:var(--paper);box-shadow:0 12px 24px rgba(23,35,45,.08)}
+.search-inner{padding-top:14px;padding-bottom:18px}
+.search-row{display:grid;grid-template-columns:1fr 44px;gap:8px}
+.search-row input{width:100%;border:1px solid var(--line);border-radius:999px;padding:12px 16px;background:var(--surface);font:inherit;color:var(--ink)}
+.search-close{border:1px solid var(--line);background:var(--surface);border-radius:999px;font-size:24px;color:var(--ink)}
+.search-results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.search-results a{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 13px;text-decoration:none;font-size:13px;font-weight:700;line-height:1.35}
+.search-results a[hidden]{display:none}
+.search-empty{grid-column:1/-1;color:var(--muted);font-size:13px;padding:8px 2px}
+
+.kicker,.eyebrow{font-size:10px;letter-spacing:.16em;font-weight:800;text-transform:uppercase;color:var(--accent)}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;margin:0;font-weight:600}
+.hero{padding:30px 0 34px;scroll-margin-top:92px}
+.hero-image{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--line);background:#d9d2c4;aspect-ratio:16/9}
+.hero-image img{width:100%;height:100%;display:block;object-fit:cover;object-position:center center}
+.hero-image:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(13,29,25,.18),transparent 44%)}
+.hero-copy{width:min(900px,100%);padding-top:25px}
+h1{font-size:clamp(42px,7.2vw,78px);line-height:.99;letter-spacing:-.035em;margin:13px 0 18px}
+.standfirst{font-family:Georgia,serif;font-size:clamp(19px,2.3vw,27px);line-height:1.43;color:#3a4851;margin:0 0 18px}
+.meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:13px}
+.badge{border:1px solid #668477;background:#edf4ef;color:#285142;border-radius:999px;padding:7px 10px;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.lead-note{margin-top:25px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:17px 0;display:grid;grid-template-columns:130px 1fr;gap:18px;font-family:Georgia,serif;font-size:18px;line-height:1.45}
+.lead-note-label{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--accent);padding-top:4px}
+
+.section{padding:40px 0;border-top:1px solid var(--line);scroll-margin-top:92px}
+.section-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:20px}
+.section-head h2{font-size:34px}
+.briefs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px}
+.card .num{font-family:Georgia,serif;font-size:42px;color:#cfc7b8}
+.card h3{font-size:24px;margin:12px 0}
+.card p{color:var(--muted);line-height:1.6;margin-bottom:0}
+
+.article{width:min(calc(100% - 32px),820px);margin:auto;padding:46px 0;scroll-margin-top:92px}
+.article-section{margin:0 0 34px}
+.article-section h2{font-size:30px;margin-bottom:12px}
+.article-section p{font-family:Georgia,serif;font-size:19px;line-height:1.72;color:#2e3a42}
+.fact{background:#17232d;color:#fff;padding:27px;border-radius:18px;margin:30px 0}
+.fact h2{font-size:29px;margin:7px 0 10px}
+.fact p{color:#d8e0e4;line-height:1.58}
+.cta{display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:12px 16px;border-radius:999px;background:#f4e8cf;color:#17232d;text-decoration:none;font-weight:800;font-size:13px}
+.cta:hover{transform:translateY(-1px)}
+.sources{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px}
+.sources li{margin:12px 0;line-height:1.45}
+.sources a{text-decoration-thickness:1px;text-underline-offset:3px}
+.source-meta{font-size:12px;color:var(--muted);margin-top:4px}
+
+.context-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.context-card{border:1px solid var(--line);border-radius:15px;padding:18px;background:rgba(255,253,249,.68)}
+.context-card strong{display:block;font-family:Georgia,serif;font-size:20px;margin-bottom:5px}
+.context-card span{font-size:13px;color:var(--muted);line-height:1.5}
+
+.newsletter{padding:34px 0 46px}
+.newsletter-card{background:var(--green);color:white;border-radius:22px;padding:30px 25px;box-shadow:0 10px 30px rgba(23,35,45,.08)}
+.newsletter-card h2{font-size:clamp(28px,5vw,38px);line-height:1.08;max-width:760px;margin:8px 0 10px}
+.newsletter-card p{color:#dfe8e4;max-width:680px;line-height:1.6;margin:0}
+
+footer{padding:28px 0;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+.footer-grid{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.footer-links{display:flex;gap:16px;flex-wrap:wrap}
+.footer-links a{text-decoration:none}
+
+@media(max-width:899px){
+  .desktop-nav{display:none!important}
+  header{width:100%;max-width:100vw;overflow-x:clip}
+  .top{height:82px;grid-template-columns:40px minmax(0,1fr) 40px;gap:0;max-width:100%}
+  .brand{min-width:0;width:100%;overflow:hidden}
+  .brand strong{font-size:clamp(21px,6.5vw,25px);letter-spacing:.08em;white-space:nowrap}
+  .brand small{font-size:7px;letter-spacing:.25em;white-space:nowrap}
+  .menu-button,.search-button{width:40px;min-width:40px}
+  .mobile-menu{max-width:100vw;overflow-x:hidden}
+  .mobile-menu-inner{max-width:100%;overflow-x:hidden}
+  .mobile-menu-inner a{max-width:100%;overflow:hidden}
+  .search-results{grid-template-columns:1fr}
+  .hero{padding-top:22px}
+  .hero-image{border-radius:18px;aspect-ratio:4/3}
+  h1{font-size:43px}
+  .lead-note{grid-template-columns:1fr;gap:6px;font-size:17px}
+  .briefs,.context-grid{grid-template-columns:1fr}
+  .newsletter-card{border-radius:18px;padding:24px 20px}
+}
+@media(max-width:360px){
+  .shell{width:min(calc(100% - 20px),var(--max))}
+  .top{grid-template-columns:38px minmax(0,1fr) 38px}
+  .brand strong{font-size:21px}
+  .menu-button,.search-button{width:38px;min-width:38px}
+}
+
+.reader{max-width:760px;margin:auto;padding:36px 0}.reader p,.reader li{font-family:Georgia,serif;font-size:20px;line-height:1.75}.reader h2{font-size:30px;line-height:1.2;margin:38px 0 15px}.reader figure{margin:30px 0}.reader img{width:100%;height:auto;border-radius:16px}.reader .eyebrow{font:800 11px/1.5 Arial,sans-serif;letter-spacing:.14em}.reader figcaption,.reader .small{font:13px/1.6 Arial,sans-serif;color:var(--muted)}.reader h1{font-size:clamp(38px,7vw,64px);line-height:1.05}.actions{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0}.button{display:inline-block;padding:14px 18px;background:var(--green);color:white;border-radius:30px;text-decoration:none;font:700 15px/1.3 Arial,sans-serif;min-height:46px}.notice{padding:24px;background:var(--surface);border:1px solid var(--line);border-radius:16px}.reader nav{display:flex;gap:18px;flex-wrap:wrap;font:14px Arial,sans-serif}footer{border-top:1px solid var(--line);padding:24px 0}a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}@media(max-width:500px){.reader p,.reader li{font-size:18px}.reader{padding-top:26px}}
+</style></head><body><header><div class="shell top"><span></span><a class="brand" href="/"><strong>POSTCARD</strong><small>INTELLIGENCE TO MARKET</small></a><span></span></div></header><main class="shell"><article class="reader"><nav aria-label="Reader navigation"><a href="/">Home</a><a href="/rooms/leye-digital">LEYE DIGITAL</a></nav><p class="eyebrow">The LEYE DIGITAL room</p><h1>Digital confidence starts with better questions.</h1><p class="standfirst">Practical education about digital tools, business systems and the work behind them.</p><section class="notice"><h2 style="margin-top:0">Under construction—launching soon</h2><p>The full room is being prepared. You can read our first edition and help shape what we explain next.</p></section><h2>What would you like explained?</h2><p>Ask about this edition, flag a correction or suggest a related topic.</p><div class="actions"><a class="button" href="https://wa.me/14168319395?text=Hello%20Leye%2C%20I%20read%20POSTCARD%20%E2%80%9CAutomated%20Does%20Not%20Mean%20Automatic%20Income%E2%80%9D%20%28PC-LEYE-20261018-01%29.%20Please%20clarify%3A%20">Request clarification</a><a class="button" href="https://wa.me/14168319395?text=Hello%20Leye%2C%20I%20would%20like%20POSTCARD%20/%20LEYE%20DIGITAL%20to%20explain%20this%20related%20topic%3A%20">Suggest a related topic</a></div><p class="small">These links open WhatsApp to Leye at +1 416-831-9395 with an editable message. Nothing is sent until you press Send. WhatsApp will share your phone number and profile with the recipient. This is a direct enquiry, not a subscription or service application. Please do not send sensitive financial or personal records. A response time is not guaranteed.</p><h2>Read the first edition</h2><p><a href="/editions/automated-does-not-mean-automatic-income">Automated Does Not Mean Automatic Income →</a></p><h2>Looking for Leye’s business information?</h2><p>That is a separate route from this educational room.</p><a href="https://oluleyee.com">Explore Leye’s business website →</a></article></main><footer class="shell"><small>POSTCARD Intelligence · Discover what matters. Know what can be trusted.</small></footer></body></html>
