@@ -2,6 +2,15 @@
 
 Status: implementation prepared; human verification and all publication held.
 
+## 24 October architecture reconciliation
+SIXELS already has an operating room-owned website approval and WhatsApp distribution path. Its staff MFA, roles, server-managed review/revisions, public projection, reserved Channel packages and confirmed release register remain authoritative for those SIXELS actions. A missing central POSTCARD resolver must not be described as a blocker to existing SIXELS publication.
+
+The additive read-only SIXELS RPC `sixels_publication_review_receipt(post_id,expected_revision)` exports the contract `SIXELS_PUBLICATION_REVIEW_RECEIPT_V1` to an authorized MFA leadership session. It reports the exact saved snapshot, approval-event reference, current projection and historical provider confirmation chain. It performs no mutation and grants no destination authority. The private SIXELS review panel uses this RPC; the UI is saved for human review before deployment.
+
+This offline preparer accepts either its original input shape or that exported receipt. Receipt fields are untrusted reported evidence; even a `published` source becomes a held POSTCARD DRAFT / REPORTED derivative. The imported source revision and reported SQL snapshot fingerprint are retained in the version pointer; POSTCARD recomputes its own content hash. A copied or changed reported SQL hash cannot authorize release. Source approval, raw source references and prior delivery do not become verified facts, a new human review, destination permission or new distribution events.
+
+Only editorial text, source pointers and existing SIXELS assets enter this handoff. Private commercial terms, identities, staff session/JWTs, provider tokens and general cross-room read access are not part of the contract. Commercial articles stay in their room-specific review path. A future automated transport must separately establish a narrowly scoped server identity and durable intake/read-back; this implementation does not activate one.
+
 ## Problem and resulting behavior
 SIXELS editorial drafts need a consistent private handoff for review before POSTCARD intake. The offline preparer produces a DRAFT / REPORTED record, a six-gate pending-review manifest and an escaped local HTML review. It uses the existing POSTCARD intake validator, trust boundary and exact-content hash. It cannot approve, publish, upload, send, schedule or call a network endpoint. No new database, authority registry or deployment workflow is added.
 
