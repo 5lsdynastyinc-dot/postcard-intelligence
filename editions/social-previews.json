@@ -9,5 +9,16 @@
     "imageHeight": 1024,
     "imageType": "image/jpeg",
     "section": "LEYE DIGITAL"
+  },
+  "before-you-share-that-viral-message.html": {
+    "title": "Before You Share That Viral Message: Five Checks That Can Change the Story",
+    "description": "A confident headline is a starting point. Check the source, the context and what remains uncertain.",
+    "url": "https://postcard-intelligence.pages.dev/editions/before-you-share-that-viral-message",
+    "image": "https://postcard-intelligence.pages.dev/assets/editorial/viral-checks-1-v1.jpg",
+    "imageAlt": "AI-generated editorial illustration of a woman considering a message on her phone.",
+    "imageWidth": 1536,
+    "imageHeight": 1024,
+    "imageType": "image/jpeg",
+    "section": "Information & everyday decisions"
   }
 }
